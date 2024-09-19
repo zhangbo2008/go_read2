@@ -302,7 +302,7 @@ func makemap_small() *hmap {
 // can be created on the stack, h and/or bucket may be non-nil.
 // If h != nil, the map can be created directly in h.
 // If h.buckets != nil, bucket pointed to can be used as the first bucket.
-func makemap(t *maptype, hint int, h *hmap) *hmap {
+func makemap(t *maptype, hint int, h *hmap) *hmap { // hint是map的元素数量.
 	mem, overflow := math.MulUintptr(uintptr(hint), t.Bucket.Size_)
 	if overflow || mem > maxAlloc {
 		hint = 0
@@ -316,7 +316,7 @@ func makemap(t *maptype, hint int, h *hmap) *hmap {
 
 	// Find the size parameter B which will hold the requested # of elements.
 	// For hint < 0 overLoadFactor returns false since hint < bucketCnt.
-	B := uint8(0)
+	B := uint8(0) //计算元素数量的log2.
 	for overLoadFactor(hint, B) {
 		B++
 	}
